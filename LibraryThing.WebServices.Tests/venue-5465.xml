@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response stat="ok"><ltml xmlns="http://www.librarything.com/" version="1.1"><item id="5465" type="venue"><url>http://www.librarything.com/venue/5465/Christopher%27s+House</url><name>Christopher's House</name><venueType id="4">Other places</venueType><officialSite></officialSite><phone>2516484100</phone><user id="23570">conceptDawg</user><location><lat>40.7363</lat><lng>-111.849</lng><address><street>1461 E Kensington Ave</street><city>Salt Lake City</city><state>UT</state><postalcode>84105</postalcode><country>United States</country></address></location><description>This venue used for testing.&#13;
+&#13;
+Secret location of conceptDawg's research lair. This is where he prototypes dangerous plans and evil schemes like &lt;a href="/local"&gt;LibraryThing Local&lt;/a&gt; and &lt;a href="/commonknowledge/"&gt;Common Knowledge&lt;/a&gt;.&#13;
+&#13;
+LibraryThing developer, conceptDawg.</description><images><thumbnail></thumbnail><medium></medium></images><wifi>1</wifi><food>1</food><indiebound>0</indiebound></item><legal>By using this data you agree to the LibraryThing API terms of service.</legal></ltml></response>
