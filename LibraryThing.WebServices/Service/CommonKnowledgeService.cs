@@ -70,8 +70,6 @@ namespace LibraryThing.WebServices.Service
 
             string method = $"{ParentMethod}.getwork";
 
-            var requestUrl = $"{Api}";
-
             var parameters = new Dictionary<string, string> {{"method", method}, {"apikey", apiKey}};
 
             var atLeastOne = false;
@@ -111,7 +109,7 @@ namespace LibraryThing.WebServices.Service
                 throw new ArgumentException("Must specify at least one: id, isbn, lccn, oclc, or name.");
             }
 
-            return await GetWebResult<WorkResponse, WorkLtml, WorkItem>(requestUrl, parameters);
+            return await GetWebResult<WorkResponse, WorkLtml, WorkItem>(parameters);
         }
 
         public async Task<AuthorItem> GetAuthor(int? id, string authorCode, string name)
@@ -153,8 +151,6 @@ namespace LibraryThing.WebServices.Service
 
             var parameters = new Dictionary<string, string> { { "method", method }, { "apikey", apiKey } };
 
-            var requestUrl = $"{Api}";
-
             var atLeastOne = false;
 
             if (id != null)
@@ -180,7 +176,7 @@ namespace LibraryThing.WebServices.Service
                 throw new ArgumentException("Must specify at least one: id, authorCode, or name.");
             }
 
-            return await GetWebResult<AuthorResponse, AuthorLtml, AuthorItem>(requestUrl, parameters);
+            return await GetWebResult<AuthorResponse, AuthorLtml, AuthorItem>(parameters);
         }
     }
 }

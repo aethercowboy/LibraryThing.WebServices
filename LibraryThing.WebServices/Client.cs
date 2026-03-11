@@ -7,39 +7,24 @@ namespace LibraryThing.WebServices
 {
     public class Client
     {
-        private string ApiKey { get; }
-        private string Endpoint { get; } = "http://www.librarything.com";
-
-        private CommonKnowledgeService _ckService;
-
-        private LocalService _localService;
-
-        private CommonKnowledgeService CommonKnowledgeService => _ckService ?? (_ckService = new CommonKnowledgeService(ApiKey, Endpoint));
-        private LocalService LocalService => _localService ?? (_localService = new LocalService(ApiKey, Endpoint));
+        private readonly CommonKnowledgeService _ckService;
+        private readonly LocalService _localService;
 
         public Client(string apiKey)
+            : this(apiKey, "http://www.librarything.com")
         {
-            ApiKey = apiKey;
         }
 
-        public Client(string apiKey, string endpoint) : this(apiKey)
+        public Client(string apiKey, string endpoint)
         {
-            Endpoint = endpoint;
+            _ckService = new CommonKnowledgeService(apiKey, endpoint);
+            _localService = new LocalService(apiKey, endpoint);
         }
 
-        public async Task<WorkItem> GetWorkById(int id)
-        {
-            return await CommonKnowledgeService.GetWorkById(id);
-        }
+        public Task<WorkItem> GetWorkById(int id) => _ckService.GetWorkById(id);
 
-        public async Task<VenueItem> GetVenueById(int id)
-        {
-            return await LocalService.GetVenueById(id);
-        }
+        public Task<VenueItem> GetVenueById(int id) => _localService.GetVenueById(id);
 
-        public async Task<IList<VenueItem>> GetVenuesNearId(int id)
-        {
-            return await LocalService.GetVenuesNearId(id);
-        }
+        public Task<IList<VenueItem>> GetVenuesNearId(int id) => _localService.GetVenuesNearId(id);
     }
 }

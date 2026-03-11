@@ -7,7 +7,7 @@ using VenueType = LibraryThing.WebServices.Enums.VenueType;
 
 namespace LibraryThing.WebServices.Service
 {
-    public class LocalService  : BaseService
+    public class LocalService : BaseService
     {
         public LocalService(string apiKey, string endpoint) : base(apiKey, endpoint)
         {
@@ -26,8 +26,6 @@ namespace LibraryThing.WebServices.Service
 
             var parameters = new Dictionary<string, string> { { "method", method }, { "apikey", apiKey } };
 
-            var requestUrl = $"{Api}";
-
             var atLeastOne = false;
 
             if (id != null)
@@ -41,17 +39,17 @@ namespace LibraryThing.WebServices.Service
                 throw new ArgumentException("Must specify at least one: id.");
             }
 
-            return await GetWebResult<VenueResponse, VenueLtml, VenueItem>(requestUrl, parameters);
+            return await GetWebResult<VenueResponse, VenueLtml, VenueItem>(parameters);
         }
 
         public async Task<VenueItem> GetVenue(int? id)
         {
-            return await GetVenue(ApiKey, id);
+            return await GetVenue(ApiKey, id).ConfigureAwait(false);
         }
 
         public async Task<VenueItem> GetVenueById(int id)
         {
-            return await GetVenue(id);
+            return await GetVenue(id).ConfigureAwait(false);
         }
 
         public static async Task<IList<VenueItem>> GetVenuesNear(string apiKey, string latlon, decimal? lat, decimal? lon, int? id,
@@ -65,8 +63,6 @@ namespace LibraryThing.WebServices.Service
             string method = $"{ParentMethod}.getvenuesnear";
 
             var parameters = new Dictionary<string, string> { { "method", method }, { "apikey", apiKey } };
-
-            var requestUrl = $"{Api}";
 
             var atLeastOne = false;
 
@@ -125,36 +121,36 @@ namespace LibraryThing.WebServices.Service
                 switch (venueType)
                 {
                     case VenueType.All:
-                        parameters.Add("measure", ((int)VenueType.All).ToString());
+                        parameters.Add("venuetype", ((int)VenueType.All).ToString());
                         break;
                     case VenueType.Bookstores:
-                        parameters.Add("measure", ((int)VenueType.Bookstores).ToString());
+                        parameters.Add("venuetype", ((int)VenueType.Bookstores).ToString());
                         break;
                     case VenueType.Libraries:
-                        parameters.Add("measure", ((int)VenueType.Libraries).ToString());
+                        parameters.Add("venuetype", ((int)VenueType.Libraries).ToString());
                         break;
                     case VenueType.FairsAndFestivals:
-                        parameters.Add("measure", ((int)VenueType.FairsAndFestivals).ToString());
+                        parameters.Add("venuetype", ((int)VenueType.FairsAndFestivals).ToString());
                         break;
                     case VenueType.Other:
-                        parameters.Add("measure", ((int)VenueType.Other).ToString());
+                        parameters.Add("venuetype", ((int)VenueType.Other).ToString());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(venueType), venueType, null);
                 }
             }
 
-            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(requestUrl, parameters);
+            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(parameters);
         }
 
         public async Task<IList<VenueItem>> GetVenuesNear(string latlon, decimal? lat, decimal? lon, int? id, string place, int? distance, Measure? measure, VenueType? venueType)
         {
-            return await GetVenuesNear(ApiKey, latlon, lat, lon, id, place, distance, measure, venueType);
+            return await GetVenuesNear(ApiKey, latlon, lat, lon, id, place, distance, measure, venueType).ConfigureAwait(false);
         }
 
         public async Task<IList<VenueItem>> GetVenuesNearId(int id)
         {
-            return await GetVenuesNear(null, null, null, id, null, null, null, null);
+            return await GetVenuesNear(null, null, null, id, null, null, null, null).ConfigureAwait(false);
         }
 
         public static async Task<IList<VenueItem>> SearchVenues(string apiKey, string q, string latlon, decimal? lat, decimal? lon, bool? centerOnQ, Measure? measure)
@@ -167,8 +163,6 @@ namespace LibraryThing.WebServices.Service
             string method = $"{ParentMethod}.searchvenues";
 
             var parameters = new Dictionary<string, string> {{"method", method}, {"apikey", apiKey}};
-
-            var requestUrl = $"{Api}";
 
             var atLeastOne = false;
 
@@ -214,7 +208,7 @@ namespace LibraryThing.WebServices.Service
                 }
             }
 
-            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(requestUrl, parameters);
+            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(parameters);
         }
 
         public static async Task<IList<VenueItem>> GetEventsNear(string apiKey, DateTimeOffset timeStamp, string latlon, decimal? lat, decimal? lon, int? venueId, string place, int? distance, Measure? measure, int? days, int? limit)
@@ -233,8 +227,6 @@ namespace LibraryThing.WebServices.Service
                 {"timestamp", timeStamp.ToString("O")}
             };
 
-
-            var requestUrl = $"{Api}";
 
             var atLeastOne = false;
 
@@ -298,7 +290,7 @@ namespace LibraryThing.WebServices.Service
                 parameters.Add("limit", limit.ToString());
             }
 
-            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(requestUrl, parameters);
+            return await GetWebResultAsList<VenuesResponse, VenuesLtml, VenueItem>(parameters);
         }
 
         public static async Task<IList<EventItem>> SearchEvents(string apiKey, string q, string latlon, decimal? lat, decimal? lon, bool? centerOnQ, Measure? measure)
@@ -316,8 +308,6 @@ namespace LibraryThing.WebServices.Service
                 {"apikey", apiKey},
             };
 
-
-            var requestUrl = $"{Api}";
 
             var atLeastOne = false;
 
@@ -363,7 +353,7 @@ namespace LibraryThing.WebServices.Service
                 }
             }
 
-            return await GetWebResultAsList<EventsResponse, EventsLtml, EventItem>(requestUrl, parameters);
+            return await GetWebResultAsList<EventsResponse, EventsLtml, EventItem>(parameters);
         }
     }
 }
